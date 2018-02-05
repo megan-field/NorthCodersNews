@@ -1,4 +1,4 @@
 const updateCommentVotes = () => {}
 const deleteCommentById = () => {}
 
-module.exports = {}
+module.exports = {deleteCommentById, updateCommentVotes}
