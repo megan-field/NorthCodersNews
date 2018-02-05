@@ -1,0 +1,20 @@
+{
+  "name": "NorthCodersNews",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megan-field/NorthCodersNews.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/megan-field/NorthCodersNews/issues"
+  },
+  "homepage": "https://github.com/megan-field/NorthCodersNews#readme"
+}
