@@ -17,11 +17,26 @@ const getAllCommentsByArticle = (req, res) => {
     .then(comments => res.send(comments))
 }
 
-const addCommentByArticle = (req, res) => {
-    // const {} = req.params
-    // const {comment} = req.body
-}
-
-const updateArticleVotes = (req, res) => {}
+const addCommentByArticle = function(req, res) {
+    const {article_id} = req.params;
+    const {comment} = req.body;
+    const addComment = new Comment({
+        body: comment,
+        belongs_to: article_id
+    })
+    return addComment.save()
+    .then(newComment => res.send(newComment))
+  };
+  
+  const updateArticleVotes = function(req, res) {
+    const {article_id} = req.params;
+    let {vote} = req.query;
+    let num;
+    if (vote === 'up') num = 1;
+    if (vote === 'down') num = -1;
+      
+    Article.findByIdAndUpdate({_id: article_id}, { $inc: {votes: num}})
+      .then(article => res.send(article));
+  };
 
 module.exports = {getAllArticles, getAllCommentsByArticle, addCommentByArticle, updateArticleVotes}
