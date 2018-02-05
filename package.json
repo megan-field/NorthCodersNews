@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,23 @@
   "bugs": {
     "url": "https://github.com/megan-field/NorthCodersNews/issues"
   },
-  "homepage": "https://github.com/megan-field/NorthCodersNews#readme"
+  "homepage": "https://github.com/megan-field/NorthCodersNews#readme",
+  "devDependencies": {
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "chance": "^1.0.13",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "log4js": "^2.5.2",
+    "moment": "^2.20.1",
+    "mongoose": "^5.0.3",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.12",
+    "querystring": "^0.2.0",
+    "underscore": "^1.8.3"
+  }
 }

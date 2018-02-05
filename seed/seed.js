@@ -11,9 +11,9 @@ var logger = log4js.getLogger();
 var moment = require('moment');
 var DBs = require('../config').DB;
 
-mongoose.connect('mongodb://megan_field:edinburgh92@ds263367.mlab.com:63367/northcoders-news', function (err) {
+mongoose.connect('mongodb://localhost/northcoders-news', function (err) {
   if (!err) {
-    logger.info(`connected to database ${DBs.dev}`);
+    console.log(`connected to database ${DBs.dev}`)
     mongoose.connection.db.dropDatabase();
     async.waterfall([
       addUsers,
@@ -27,7 +27,7 @@ mongoose.connect('mongodb://megan_field:edinburgh92@ds263367.mlab.com:63367/nort
         console.log(JSON.stringify(err));
         process.exit();
       }
-      logger.info('DONE SEEDING!!');
+      console.log('DONE SEEDING!!')
       process.exit();
     });
   } else {

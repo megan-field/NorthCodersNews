@@ -1,12 +1,10 @@
 module.exports = {
-    // DB: {
-    //     test:
-    //     dev:
-    //     production: process.env.DB
-    // },
+    DB: {
+        test: 'mongodb://localhost/northcoders-news-api-test',
+        dev: 'mongodb://localhost/northcoders-news'
+    },
     PORT: {
         test: 3090,
-        dev: 3000,
-        production: process.env.PORT
+        dev: 3000
     }
 }
