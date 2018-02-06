@@ -9,6 +9,14 @@ const updateCommentVotes = () => {
       .then(comment => res.send(comment));
 }
 
-const deleteCommentById = () => {}
+const deleteCommentById = () => {
+    const {comment_id} = req.params;
+    Comment.remove({_id: comment_id})
+      .then(comment => {
+        console.log(comment);
+        res.send(comment);
+        console.log(`comment ${comment_id} was deleted`);
+      });
+}
 
 module.exports = {deleteCommentById, updateCommentVotes}
