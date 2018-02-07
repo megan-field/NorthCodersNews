@@ -1,4 +1,4 @@
-if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production';
+if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
 const morgan = require('morgan');
 var express = require('express');
@@ -9,9 +9,8 @@ var app = express();
 const {DB} = require('./config');
 var db = DB[process.env.NODE_ENV];
 const cors = require('cors');
-
 const router = require('./routes/index');
-console.log(db)
+
 app.use(cors());
 
 mongoose.connect(db)

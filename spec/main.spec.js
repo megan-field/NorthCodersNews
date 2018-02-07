@@ -1,4 +1,4 @@
-process.env.NODE_ENV='test';
+process.env.NODE_ENV = 'test';
 
 const { expect } = require('chai');
 const mongoose = require('mongoose');
@@ -6,20 +6,20 @@ const app = require('../app');
 const request = require('supertest')(app);
 const seed = require('../seed/test.seed.js')
 
-describe('API endpoints', function() {
+describe('API endpoints', function () {
 
     let docs;
-this.timeout(8000)
-  before(function () {
-    return mongoose.connection.dropDatabase()
-      .then(seed)
-      .then(usefulDocs => {
-        docs = usefulDocs;
-      });
-  });
+    this.timeout(8000)
+    before(function () {
+        return mongoose.connection.dropDatabase()
+            .then(seed)
+            .then(usefulDocs => {
+                docs = usefulDocs;
+            });
+    });
 
     after('', () => {
-        mongoose.disconnect(); 
+        mongoose.disconnect();
     })
     describe('/api', () => {
         it('GETs all topics', () => {
@@ -33,9 +33,9 @@ this.timeout(8000)
                     expect(res.body[1].title).to.eql('Cooking')
                     expect(res.body[2].title).to.eql('Cats')
                 })
-            })
-            it('GETs all articles for a topic', () => {
-                return request
+        })
+        it('GETs all articles for a topic', () => {
+            return request
                 .get('/api/topics/cats/articles')
                 .expect(200)
                 .then(res => {
@@ -46,9 +46,9 @@ this.timeout(8000)
                     expect(res.body[0].body).to.be.a('string');
                     expect(res.body[0].title).to.be.a('string');
                 })
-            })
-            it('GETs all articles', () => {
-                return request
+        })
+        it('GETs all articles', () => {
+            return request
                 .get('/api/articles')
                 .expect(200)
                 .then(res => {
@@ -62,19 +62,19 @@ this.timeout(8000)
         })
         it('GETs one article', () => {
             return request
-            .get(`/api/articles/${docs.articles[0]._id}`)
-            .expect(200)
-            .then(res => {
-                expect(res.body[0]).to.be.an('object')
-                expect(res.body[0].body).to.be.a('string')
-                expect(res.body[0].belongs_to).to.equal('cats')
-            })
+                .get(`/api/articles/${docs.articles[0]._id}`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body[0]).to.be.an('object')
+                    expect(res.body[0].body).to.be.a('string')
+                    expect(res.body[0].belongs_to).to.equal('cats')
+                })
         })
         it('GETs all the comments for an individual article', () => {
             return request
                 .get(`/api/articles/${docs.articles[0]._id}/comments`)
                 .expect(200)
-                .then(res => { 
+                .then(res => {
                     expect(res.body).to.be.an('object')
                     expect(res.body.comments.length).to.equal(2)
                     expect(res.body.comments[0].created_by).to.equal('northcoder')
@@ -83,28 +83,33 @@ this.timeout(8000)
         })
         it('GETs the specified user', () => {
             return request
-            .get('/api/users/northcoder')
-            .expect(200)
+                .get('/api/users/northcoder')
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.a('array')
+                    expect(res.body[0]).to.be.an('object')
+                    expect(res.body[0].name).to.be.a('string')
+                    expect(res.body[0].avatar_url).to.be.a('string')
+                })
+        })
+        it('POSTs a new comment on a specific article', () => {
+            return request
+            .post(`/api/articles/${docs.articles[0]._id}/comments`)
+            .send({body: 'this is a NEW comment'})
+            .expect(201)
             .then(res => {
-                expect(res.body).to.be.a('array')
-                expect(res.body[0]).to.be.an('object')
-                expect(res.body[0].name).to.be.a('string')
-                expect(res.body[0].avatar_url).to.be.a('string')
+                expect(res.body.body).to.be.a('string')
+                return request
+                .get(`/api/articles/${docs.articles[0]._id}/comments`)
+                .then(res => {
+                    expect(res.body.comments.length).to.equal(3)
+                    expect(res.body.comments[2].body).to.equal('this is a NEW comment')
+                })
             })
         })
-        // it('POSTs a new comment on a specific article', () => {
-        //     return request
-        //     .post('/api/articles/5a79d6395881c3fa0b11a8cd/comments')
-        //     .send()
-        //     .expect(201)
-        //     .then(res => {
-        //         console.log(res)
-        //         expect().to.be.an('')
-        //     })
-        // })
         // it('PUT request for an article\'s vote, both up and down', () => {
         //     return request
-        //     .put('/api/articles/5a79d6395881c3fa0b11a8cd')
+        //     .put(`/api/articles/${docs.articles[0]._id}`)
         //     .send({votes: 1})
         //     .expect(201)
         //     .then(res => {
