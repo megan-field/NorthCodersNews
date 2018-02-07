@@ -8,6 +8,7 @@ const getUsersByUsername = (req, res) => {
     const {username} = req.params
     User.find({username}, {__v: false})
     .then(user => res.send(user))
+    .catch(console.error)
 }
 
 module.exports = {getUsersByUsername}

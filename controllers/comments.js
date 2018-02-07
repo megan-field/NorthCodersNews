@@ -6,7 +6,8 @@ const updateCommentVotes = () => {
         if (vote === 'down') num = -1;
       
     Comment.findByIdAndUpdate({_id: comment_id}, { $inc: {votes: num}})
-      .then(comment => res.send(comment));
+      .then(comment => res.send(comment))
+      .catch(console.error)
 }
 
 const deleteCommentById = () => {
@@ -16,7 +17,8 @@ const deleteCommentById = () => {
         console.log(comment);
         res.send(comment);
         console.log(`comment ${comment_id} was deleted`);
-      });
+      })
+      .catch(console.error)
 }
 
 module.exports = {deleteCommentById, updateCommentVotes}
