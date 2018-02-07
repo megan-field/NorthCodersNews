@@ -1,4 +1,4 @@
-if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production';
+if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
 const morgan = require('morgan');
 var express = require('express');
@@ -6,12 +6,9 @@ var mongoose = require('mongoose');
 mongoose.Promise = Promise;
 var bodyParser = require('body-parser');
 var app = express();
-var config = require('./config');
-var db = config.DB.dev
-// var db = config.DB[process.env.NODE_ENV];
-const cors = require('cors');
-
 const {DB} = require('./config');
+var db = DB[process.env.NODE_ENV];
+const cors = require('cors');
 const router = require('./routes/index');
 
 app.use(cors());
