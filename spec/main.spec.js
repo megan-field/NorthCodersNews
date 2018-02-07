@@ -107,16 +107,34 @@ describe('API endpoints', function () {
                 })
             })
         })
-        // it('PUT request for an article\'s vote, both up and down', () => {
-        //     return request
-        //     .put(`/api/articles/${docs.articles[0]._id}`)
-        //     .send({votes: 1})
-        //     .expect(201)
-        //     .then(res => {
-        //         console.log(res)
-        //         expect().to.be.an('')
-        //     })
-        // })
+        it('PUT request for an article\'s vote, an UP vote', () => {
+            return request
+            .put(`/api/articles/${docs.articles[0]._id}`)
+            .send({vote: 'up'})
+            .expect(201)
+            .then(res => {
+                expect(res.body.votes).to.equal(0)
+                return request
+                .get(`/api/articles/${docs.articles[0]._id}`)
+                .then(res =>  {
+                    expect(res.body[0].votes).to.equal(1)
+                })
+            })
+        })
+        it('PUT request for an article\'s vote, a DOWN vote', () => {
+            return request
+            .put(`/api/articles/${docs.articles[0]._id}`)
+            .send({vote: 'down'})
+            .expect(201)
+            .then(res => {
+                expect(res.body.votes).to.equal(1)
+                return request
+                .get(`/api/articles/${docs.articles[0]._id}`)
+                .then(res =>  {
+                    expect(res.body[0].votes).to.equal(0)
+                })
+            })
+        })
         // it('PUT request for a comment\'s vote, both up and down', () => {
         //     return request
         //     .put('/api/comments/:comment_id')

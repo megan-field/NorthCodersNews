@@ -41,13 +41,16 @@ const addCommentByArticle = function(req, res) {
   
   const updateArticleVotes = function(req, res) {
     const {article_id} = req.params;
-    let {vote} = req.query;
+    let {vote} = req.body;
     let num;
     if (vote === 'up') num = 1;
     if (vote === 'down') num = -1;
       
     Article.findByIdAndUpdate({_id: article_id}, { $inc: {votes: num}})
-      .then(article => res.send(article))
+      .then(article => {
+          res.status(201)
+          res.send(article)
+        })
       .catch(console.error)
   };
 
