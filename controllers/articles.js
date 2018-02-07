@@ -5,27 +5,28 @@ const {db} = require('../config')
 const Article = require('../models/articles')
 const Comment = require('../models/comments')
 
-const getAllArticles = (req, res) => {
+const getAllArticles = (req, res, next) => {
     Article.find({}, {__v: false})
     .then(articles => res.send(articles))
-    .catch(console.error)
+    .catch(err => next(err))
 }
 
-const getOneArticle = (req, res) => {
+const getOneArticle = (req, res, next) => {
     const {article_id} = req.params
     Article.find({_id: article_id}, {__v: false})
     .then(article => res.send(article))
-    .catch(console.error)
-}
+    .catch(err => next(err))
+    }
 
-const getAllCommentsByArticle = (req, res) => {
+
+const getAllCommentsByArticle = (req, res, next) => {
     const {article_id} = req.params
    return Comment.find({belongs_to: article_id})
     .then(comments => res.send({comments}))
-    .catch(console.error)
+    .catch(err => next(err))
 }
 
-const addCommentByArticle = function(req, res) {
+const addCommentByArticle = (req, res, next) => {
     const {article_id} = req.params;
     const {body} = req.body;
     const addComment = new Comment({
@@ -36,10 +37,10 @@ const addCommentByArticle = function(req, res) {
     .then(newComment => {
         res.status(201)
         res.send(newComment)})
-    .catch(console.error)
+        .catch(err => next(err))
   };
   
-  const updateArticleVotes = function(req, res) {
+  const updateArticleVotes = (req, res, next) => {
     const {article_id} = req.params;
     let {vote} = req.body;
     let num;
@@ -51,7 +52,7 @@ const addCommentByArticle = function(req, res) {
           res.status(201)
           res.send(article)
         })
-      .catch(console.error)
+        .catch(err => next(err))
   };
 
 module.exports = {getAllArticles, getAllCommentsByArticle, addCommentByArticle, updateArticleVotes, getOneArticle}
