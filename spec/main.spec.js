@@ -94,65 +94,92 @@ describe('API endpoints', function () {
         })
         it('POSTs a new comment on a specific article', () => {
             return request
-            .post(`/api/articles/${docs.articles[0]._id}/comments`)
-            .send({body: 'this is a NEW comment'})
-            .expect(201)
-            .then(res => {
-                expect(res.body.body).to.be.a('string')
-                return request
-                .get(`/api/articles/${docs.articles[0]._id}/comments`)
+                .post(`/api/articles/${docs.articles[0]._id}/comments`)
+                .send({ body: 'this is a NEW comment' })
+                .expect(201)
                 .then(res => {
-                    expect(res.body.comments.length).to.equal(3)
-                    expect(res.body.comments[2].body).to.equal('this is a NEW comment')
+                    expect(res.body.body).to.be.a('string')
+                    return request
+                        .get(`/api/articles/${docs.articles[0]._id}/comments`)
+                        .then(res => {
+                            expect(res.body.comments.length).to.equal(3)
+                            expect(res.body.comments[2].body).to.equal('this is a NEW comment')
+                        })
                 })
-            })
         })
         it('PUT request for an article\'s vote, an UP vote', () => {
             return request
-            .put(`/api/articles/${docs.articles[0]._id}`)
-            .send({vote: 'up'})
-            .expect(201)
-            .then(res => {
-                expect(res.body.votes).to.equal(0)
-                return request
-                .get(`/api/articles/${docs.articles[0]._id}`)
-                .then(res =>  {
-                    expect(res.body[0].votes).to.equal(1)
+                .put(`/api/articles/${docs.articles[0]._id}`)
+                .send({ vote: 'up' })
+                .expect(201)
+                .then(res => {
+                    expect(res.body.votes).to.equal(0)
+                    return request
+                        .get(`/api/articles/${docs.articles[0]._id}`)
+                        .then(res => {
+                            expect(res.body[0].votes).to.equal(1)
+                        })
                 })
-            })
         })
         it('PUT request for an article\'s vote, a DOWN vote', () => {
             return request
-            .put(`/api/articles/${docs.articles[0]._id}`)
+                .put(`/api/articles/${docs.articles[0]._id}`)
+                .send({ vote: 'down' })
+                .expect(201)
+                .then(res => {
+                    expect(res.body.votes).to.equal(1)
+                    return request
+                        .get(`/api/articles/${docs.articles[0]._id}`)
+                        .then(res => {
+                            expect(res.body[0].votes).to.equal(0)
+                        })
+                })
+        })
+        it('GETs one comment with the comment id', () => {
+            return request
+                .get(`/api/comments/${docs.comments[0]._id}`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.a('array')
+                    expect(res.body[0]).to.be.a('object')
+                    expect(res.body[0].body).to.equal('this is a comment')
+                })
+        })
+        it('PUT request for a comment\'s vote, an UP vote', () => {
+            return request
+                .put(`/api/comments/${docs.comments[0]._id}`)
+                .send({ vote: 'up' })
+                .expect(201)
+                .then(res => {
+                    expect(res.body.votes).to.equal(0)
+                    return request
+                        .get(`/api/comments/${docs.comments[0]._id}`)
+                        .then(res => {
+                            expect(res.body[0].votes).to.equal(1)
+                        })
+                })
+        })
+        it('PUT request for a comment\'s vote, an DOWN vote', () => {
+            return request
+            .put(`/api/comments/${docs.comments[0]._id}`)
             .send({vote: 'down'})
             .expect(201)
             .then(res => {
                 expect(res.body.votes).to.equal(1)
                 return request
-                .get(`/api/articles/${docs.articles[0]._id}`)
+                .get(`/api/comments/${docs.comments[0]._id}`)
                 .then(res =>  {
                     expect(res.body[0].votes).to.equal(0)
                 })
             })
         })
-        // it('PUT request for a comment\'s vote, both up and down', () => {
-        //     return request
-        //     .put('/api/comments/:comment_id')
-        //     .send()
-        //     .expect(201)
-        //     .then(res => {
-        //         console.log(res)
-        //         expect().to.be.an('')
-        //     })
-        // })
-        // it('DELETEs a comment', () => {
-        //     return request
-        //     .delete('/api/comments/:comment_id')
-        //     .expect(201)
-        //     .then(res => {
-        //         console.log(res)
-        //         expect().to.be.an('')
-        //     })
-        // })
+        it('DELETEs a comment', () => {
+            return request
+            .delete(`/api/comments/${docs.comments[0]._id}`)
+            .expect(202)
+            .then(res => {
+                expect(res.text).to.equal(`comment ${docs.comments[0]._id} was deleted`)
+        })
+        })
     })
 })
