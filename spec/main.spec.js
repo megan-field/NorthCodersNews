@@ -29,9 +29,6 @@ describe('API endpoints', function () {
                 .then(res => {
                     expect(res.body).to.be.an('array')
                     expect(res.body.length).to.equal(3)
-                    expect(res.body[0].title).to.eql('Football')
-                    expect(res.body[1].title).to.eql('Cooking')
-                    expect(res.body[2].title).to.eql('Cats')
                 })
         })
         it('GETs all articles for a topic', () => {
@@ -79,6 +76,15 @@ describe('API endpoints', function () {
                     expect(res.body.comments.length).to.equal(2)
                     expect(res.body.comments[0].created_by).to.equal('northcoder')
                     expect(res.body.comments[0].body).to.be.a('string')
+                })
+        })
+        it('GETs all the users', () => {
+            return request
+                .get('/api/users/')
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.a('array')
+                    expect(res.body[0]).to.be.an('object')
                 })
         })
         it('GETs the specified user', () => {
@@ -140,6 +146,7 @@ describe('API endpoints', function () {
                 .get(`/api/comments/${docs.comments[0]._id}`)
                 .expect(200)
                 .then(res => {
+                    // console.log(res.body)
                     expect(res.body).to.be.a('array')
                     expect(res.body[0]).to.be.a('object')
                     expect(res.body[0].body).to.equal('this is a comment')

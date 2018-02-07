@@ -4,11 +4,20 @@ const {db} = require('../config')
 
 const User = require('../models/users')
 
-const getUsersByUsername = (req, res) => {
-    const {username} = req.params
-    User.find({username}, {__v: false})
-    .then(user => res.send(user))
-    .catch(console.error)
+const getAllUsers = (req, res, next) => {
+    User.find({}, {__v: false})
+    .then(users => res.send(users))
+    .catch(err => next(err))
 }
 
-module.exports = {getUsersByUsername}
+const getUsersByUsername = (req, res, next) => {
+    const {username} = req.params
+    User.find({username}, {__v: false})
+    .then(user => {
+        if (user.length > 0)  res.send(user) 
+        else throw err
+    })
+    .catch(err => next(err))
+}
+
+module.exports = {getUsersByUsername, getAllUsers}

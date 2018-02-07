@@ -1,13 +1,17 @@
 const Comment = require('../models/comments')
 
-const getOneComment = (req, res) => {
+const getOneComment = (req, res, next) => {
   const {comment_id} = req.params
   Comment.find({_id: comment_id}, {__v: false})
-  .then(comment=> res.send(comment))
-  .catch(console.error)
+  .then(comment=> {
+    console.log(comment)
+    if (comment.length > 0) res.send(comment)
+    else throw err
+  })
+  .catch(err => next(err))
 }
 
-const updateCommentVotes = (req, res) => {
+const updateCommentVotes = (req, res, next) => {
   const { comment_id } = req.params;
   let { vote } = req.body;
   let num;
@@ -19,17 +23,17 @@ const updateCommentVotes = (req, res) => {
       res.status(201)
       res.send(comment)
     })
-    .catch(console.error)
+    .catch(err => next(err))
 }
 
-const deleteCommentById = (req, res) => {
+const deleteCommentById = (req, res, next) => {
   const { comment_id } = req.params;
   Comment.remove({ _id: comment_id })
     .then(() => {
       res.status(202)
       res.send(`comment ${comment_id} was deleted`);
     })
-    .catch(console.error)
+    .catch(err => next(err))
 }
 
 module.exports = { deleteCommentById, updateCommentVotes, getOneComment }
