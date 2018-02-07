@@ -6,14 +6,12 @@ var mongoose = require('mongoose');
 mongoose.Promise = Promise;
 var bodyParser = require('body-parser');
 var app = express();
-var config = require('./config');
-var db = config.DB.dev
-// var db = config.DB[process.env.NODE_ENV];
+const {DB} = require('./config');
+var db = DB[process.env.NODE_ENV];
 const cors = require('cors');
 
-const {DB} = require('./config');
 const router = require('./routes/index');
-
+console.log(db)
 app.use(cors());
 
 mongoose.connect(db)

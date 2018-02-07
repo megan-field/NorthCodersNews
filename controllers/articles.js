@@ -10,11 +10,19 @@ const getAllArticles = (req, res) => {
     .then(articles => res.send(articles))
 }
 
+const getOneArticle = (req, res) => {
+    const {article_id} = req.params
+    Article.find({_id: article_id}, {__v: false})
+    .then(article => res.send(article))
+}
+
 const getAllCommentsByArticle = (req, res) => {
     const {article_id} = req.params
 
-    Comment.find({belongs_to: article_id}, {__v: false})
-    .then(comments => res.send(comments))
+   return Comment.find({belongs_to: article_id})
+    .then(comments => {
+        res.send({comments})
+    })
 }
 
 const addCommentByArticle = function(req, res) {
@@ -39,4 +47,4 @@ const addCommentByArticle = function(req, res) {
       .then(article => res.send(article));
   };
 
-module.exports = {getAllArticles, getAllCommentsByArticle, addCommentByArticle, updateArticleVotes}
+module.exports = {getAllArticles, getAllCommentsByArticle, addCommentByArticle, updateArticleVotes, getOneArticle}
