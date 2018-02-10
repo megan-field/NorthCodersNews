@@ -19,7 +19,7 @@ const getArticlesByTopic = (req, res, next) => {
         if (articles.length > 0) res.send({articles})
         else throw err
     })
-    .catch(err => res.status(400).send("Not a Valid Topic"))
+    .catch(err => res.status(400).send({message: "Not a Valid Topic"}))
 }
 
 module.exports = {getAllTopics, getArticlesByTopic}
