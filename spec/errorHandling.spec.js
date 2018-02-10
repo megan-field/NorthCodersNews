@@ -45,6 +45,14 @@ describe('Error Handling', function () {
           expect(res.body.message).to.equal('Not a Valid ID')
         })
     })
+    it('Handles the error on /api/articles?:page when there are no more articles', () => {
+      return request
+        .get('/api/articles?page=3')
+        .expect(404)
+        .then(res => {
+          expect(res.body.message).to.equal('No More Articles')
+        })
+    })
     it('Handles the error on /api/articles/:article_id when the id is wrong/mispelt', () => {
       return request
         .get('/api/articles/5a7aef38c99a78119acc6f1a')

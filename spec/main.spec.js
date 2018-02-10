@@ -43,17 +43,18 @@ describe('API endpoints', function () {
           expect(res.body.articles[0].title).to.be.a('string')
         })
     })
-    it('GETs all articles', () => {
+    it('GETs all articles by page', () => {
       return request
-        .get('/api/articles')
+        .get('/api/articles?page=1')
         .expect(200)
         .then(res => {
-          expect(res.body.articles).to.be.an('array')
-          expect(res.body.articles[0]).to.be.an('object')
-          expect(res.body.articles.length).to.equal(2)
-          expect(res.body.articles[0].title).to.be.a('string')
-          expect(res.body.articles[0].body).to.be.a('string')
-          expect(res.body.articles[0]._id).to.equal(`${docs.articles[0]._id}`)
+          expect(res.body.articles).to.be.an('object')
+          expect(res.body.articles.articles).to.be.an('array')
+          expect(res.body.articles.articles.length).to.equal(2)
+          expect(res.body.current).to.equal('1')
+          expect(res.body.articles.articles[0].title).to.be.a('string')
+          expect(res.body.articles.articles[0].body).to.be.a('string')
+          expect(res.body.articles.articles[0]._id).to.equal(`${docs.articles[0]._id}`)
         })
     })
     it('GETs one article', () => {
