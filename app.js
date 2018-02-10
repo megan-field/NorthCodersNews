@@ -34,7 +34,7 @@ app.use('/*', (req, res)=>{
 
 app.use((error, req, res, next) => {
   (error.name === "CastError") ? res.status(400).send("cast error - try checking the url is correct before continuing") :
-  res.status(500).send("Not a Valid User");
+  res.status(500).send(error);
 })
 
 module.exports = app;

@@ -43,7 +43,23 @@ describe('Error Handling', function () {
             .get('/api/articles/notAroute')
             .expect(400)
             .then(res => {
-                expect(res.text).to.equal('cast error - try checking the url is correct before continuing')
+                expect(res.text).to.equal('Not a Valid ID')
+        })
+    })
+        it('Handles the error on /api/articles/:article_id when the id is wrong/mispelt', () => {
+            return request
+            .get('/api/articles/5a7aef38c99a78119acc6f1a')
+            .expect(400)
+            .then(res => {
+                expect(res.text).to.equal('Not a Valid ID')
+        })
+    })
+        it('Handles the error on /api/articles/:article_id/comments when the id is wrong/mispelt', () => {
+            return request
+            .get('/api/articles/5a7aef38c99a78119acc6f1a/comments')
+            .expect(400)
+            .then(res => {
+                expect(res.text).to.equal('Not a Valid ID')
         })
     })
         it('Handles the error on /api/articles/:article_id/*', () => {
@@ -73,7 +89,7 @@ describe('Error Handling', function () {
         it('Handles the error on /api/users/*', () => {
             return request
             .get(`/api/users/notAroute`)
-            .expect(500)
+            .expect(404)
             .then(res => {
                 expect(res.text).to.equal("Not a Valid User")
         })
