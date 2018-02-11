@@ -63,10 +63,10 @@ describe('Error Handling', function () {
     })
     it('Handles the error on /api/articles/:article_id/comments when the id is wrong/mispelt', () => {
       return request
-        .get('/api/articles/5a7aef38c99a78119acc6f1a/comments')
+        .get('/api/articles/5a7aef38c99a78119acc6f1a/comments?page=1')
         .expect(400)
         .then(res => {
-          expect(res.body.message).to.equal('Not a Valid ID')
+          expect(res.body.message).to.equal('Not a Valid ID/No More Comments')
         })
     })
     it('Handles the error on /api/articles/:article_id/*', () => {
@@ -75,6 +75,14 @@ describe('Error Handling', function () {
         .expect(404)
         .then(res => {
           expect(res.body.message).to.equal('Sorry that page could not be found')
+        })
+    })
+    it('Handles the error on /api/articles/:article_id?:page when page has no more articles', () => {
+      return request
+        .get(`/api/articles/${docs.articles[0]._id}/comments?page=6`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Not a Valid ID/No More Comments')
         })
     })
     it('Handles the error on /api/topics/*', () => {

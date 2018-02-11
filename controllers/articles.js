@@ -28,12 +28,16 @@ const getOneArticle = (req, res, next) => {
 
 const getAllCommentsByArticle = (req, res, next) => {
   const { article_id } = req.params
+  let perPage = 5
+  let {page} = req.query || 1
   return Comment.find({ belongs_to: article_id })
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
     .then(comments => {
-      if (comments.length > 0) res.send({ comments })
+      if (comments.length > 0) res.send({ comments: comments, current: page })
       else throw err
     })
-    .catch(err => res.status(400).send({ message: 'Not a Valid ID' }))
+    .catch(err => res.status(400).send({ message: 'Not a Valid ID/No More Comments' }))
 }
 
 const addCommentByArticle = (req, res, next) => {
