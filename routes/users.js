@@ -1,12 +1,11 @@
-const {getUsersByUsername, getAllUsers} = require('../controllers/users');
-const express = require('express');
-const router = express.Router();
-
+const {getUsersByUsername, getAllUsers} = require('../controllers/users')
+const express = require('express')
+const router = express.Router()
 
 router.route('/')
-.get(getAllUsers)
+  .get(getAllUsers)
 
 router.route('/:username')
-  .get(getUsersByUsername);
+  .get(getUsersByUsername)
 
-module.exports = router;
+module.exports = router

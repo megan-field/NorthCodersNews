@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 var CommentSchema = new Schema({
   body: {
@@ -9,7 +9,7 @@ var CommentSchema = new Schema({
   belongs_to: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref:  'articles'
+    ref: 'articles'
   },
   created_at: {
     type: Number,
@@ -24,6 +24,6 @@ var CommentSchema = new Schema({
     required: true,
     default: 'northcoder'
   }
-});
+})
 
 module.exports = mongoose.model('comments', CommentSchema);

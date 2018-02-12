@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 var TopicSchema = new Schema({
   title: {
@@ -11,6 +11,6 @@ var TopicSchema = new Schema({
     lowercase: true,
     required: true
   }
-});
+})
 
 module.exports = mongoose.model('topics', TopicSchema);
