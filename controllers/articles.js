@@ -3,9 +3,17 @@ const Article = require('../models/articles')
 const Comment = require('../models/comments')
 
 const getAllArticles = (req, res, next) => {
+  let perPage = 10
+  let {page} = req.query || 1
+
   Article.find({}, { __v: false })
-    .then(articles => res.send({ articles }))
-    .catch(err => next(err))
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
+    .then(articles => {
+      if (articles.length > 0) res.send({ articles: {articles}, current: page })
+      else throw err
+    })
+    .catch(err => res.status(404).send({message: 'No More Articles'}))
 }
 
 const getOneArticle = (req, res, next) => {
@@ -20,12 +28,16 @@ const getOneArticle = (req, res, next) => {
 
 const getAllCommentsByArticle = (req, res, next) => {
   const { article_id } = req.params
+  let perPage = 5
+  let {page} = req.query || 1
   return Comment.find({ belongs_to: article_id })
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
     .then(comments => {
-      if (comments.length > 0) res.send({ comments })
+      if (comments.length > 0) res.send({ comments: comments, current: page })
       else throw err
     })
-    .catch(err => res.status(400).send({ message: 'Not a Valid ID' }))
+    .catch(err => res.status(400).send({ message: 'Not a Valid ID/No More Comments' }))
 }
 
 const addCommentByArticle = (req, res, next) => {
