@@ -20,7 +20,7 @@ const getOneArticle = (req, res, next) => {
         if (article.length > 0) res.send({article}) 
         else throw err
     })
-    .catch(err => res.status(400).send('Not a Valid ID'))
+    .catch(err => res.status(400).send({message:'Not a Valid ID'}))
     }
 
 
@@ -31,7 +31,7 @@ const getAllCommentsByArticle = (req, res, next) => {
         if (comments.length > 0) res.send({comments})
         else throw err
     })
-    .catch(err => res.status(400).send('Not a Valid ID'))
+    .catch(err => res.status(400).send({message: 'Not a Valid ID'}))
 }
 
 const addCommentByArticle = (req, res, next) => {
@@ -46,7 +46,7 @@ const addCommentByArticle = (req, res, next) => {
         if (ObjectId.isValid(article_id)) res.status(201).send({newComment})
         else throw err
     })
-        .catch(err => res.status(400).send("Not a Valid ID"))
+        .catch(err => res.status(400).send({message: "Not a Valid ID"}))
   };
   
   const updateArticleVotes = (req, res, next) => {
@@ -61,7 +61,7 @@ const addCommentByArticle = (req, res, next) => {
       if (article !== null) res.status(201).send({article})
       else throw err
     })
-    .catch(err => res.status(400).send("Not a Valid URL, please check you're article id and vote"))
+    .catch(err => res.status(400).send({message: "Not a Valid URL, please check you're article id and vote"}))
   };
 
 module.exports = {getAllArticles, getAllCommentsByArticle, addCommentByArticle, updateArticleVotes, getOneArticle}

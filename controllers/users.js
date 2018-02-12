@@ -17,7 +17,7 @@ const getUsersByUsername = (req, res, next) => {
         if (user.length > 0)  res.send({user}) 
         else throw err
     })
-    .catch(err => res.status(404).send("Not a Valid User"))
+    .catch(err => res.status(404).send({message: "Not a Valid User"}))
 }
 
 module.exports = {getUsersByUsername, getAllUsers}

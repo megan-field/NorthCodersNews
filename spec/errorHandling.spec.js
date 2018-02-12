@@ -21,13 +21,13 @@ describe('Error Handling', function () {
     after('', () => {
         mongoose.disconnect();
     })
-    describe('Error Handling on all routes', () => {
+    describe.only('Error Handling on all routes', () => {
         it('Handles the error on /*', () => {
             return request
             .get('/notWorking!')
             .expect(404)
             .then(res => {
-                expect(res.text).to.equal('Sorry that page could not be found')
+                expect(res.body.message).to.equal('Sorry that page could not be found')
             })
         })
         it('Handles the error on /api/*', () => {
@@ -35,7 +35,7 @@ describe('Error Handling', function () {
             .get('/api/notAroute')
             .expect(404)
             .then(res => {
-                expect(res.text).to.equal('Sorry that page could not be found')
+                expect(res.body.message).to.equal('Sorry that page could not be found')
         })
     })
         it('Handles the error on /api/articles/*', () => {
@@ -43,7 +43,7 @@ describe('Error Handling', function () {
             .get('/api/articles/notAroute')
             .expect(400)
             .then(res => {
-                expect(res.text).to.equal('Not a Valid ID')
+                expect(res.body.message).to.equal('Not a Valid ID')
         })
     })
         it('Handles the error on /api/articles/:article_id when the id is wrong/mispelt', () => {
@@ -51,7 +51,7 @@ describe('Error Handling', function () {
             .get('/api/articles/5a7aef38c99a78119acc6f1a')
             .expect(400)
             .then(res => {
-                expect(res.text).to.equal('Not a Valid ID')
+                expect(res.body.message).to.equal('Not a Valid ID')
         })
     })
         it('Handles the error on /api/articles/:article_id/comments when the id is wrong/mispelt', () => {
@@ -59,7 +59,7 @@ describe('Error Handling', function () {
             .get('/api/articles/5a7aef38c99a78119acc6f1a/comments')
             .expect(400)
             .then(res => {
-                expect(res.text).to.equal('Not a Valid ID')
+                expect(res.body.message).to.equal('Not a Valid ID')
         })
     })
         it('Handles the error on /api/articles/:article_id/*', () => {
@@ -67,7 +67,7 @@ describe('Error Handling', function () {
             .get(`/api/articles/${docs.articles[0]._id}/notAroute`)
             .expect(404)
             .then(res => {
-                expect(res.text).to.equal('Sorry that page could not be found')
+                expect(res.body.message).to.equal('Sorry that page could not be found')
         })
     })
         it('Handles the error on /api/topics/*', () => {
@@ -75,7 +75,7 @@ describe('Error Handling', function () {
             .get(`/api/topics/notAroute`)
             .expect(404)
             .then(res => {
-                expect(res.text).to.equal('Sorry that page could not be found')
+                expect(res.body.message).to.equal('Sorry that page could not be found')
         })
     })
         it('Handles the error on /api/topics/:topic/*', () => {
@@ -83,7 +83,7 @@ describe('Error Handling', function () {
             .get(`/api/topics/cats/notAroute`)
             .expect(404)
             .then(res => {
-                expect(res.text).to.equal('Sorry that page could not be found')
+                expect(res.body.message).to.equal('Sorry that page could not be found')
         })
     })
         it('Handles the error on /api/users/*', () => {
@@ -91,7 +91,7 @@ describe('Error Handling', function () {
             .get(`/api/users/notAroute`)
             .expect(404)
             .then(res => {
-                expect(res.text).to.equal("Not a Valid User")
+                expect(res.body.message).to.equal("Not a Valid User")
         })
     })
         it('Handles the error on /api/comments/*', () => {
@@ -99,7 +99,7 @@ describe('Error Handling', function () {
             .get(`/api/comments/notAroute`)
             .expect(400)
             .then(res => {
-                expect(res.text).to.equal("cast error - try checking the url is correct before continuing")
+                expect(res.body.message).to.equal("cast error - try checking the url is correct before continuing")
         })
     })
     })

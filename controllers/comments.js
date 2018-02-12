@@ -23,7 +23,7 @@ const updateCommentVotes = (req, res, next) => {
       if (comment !== null) res.status(201).send({comment})
       else throw err
     })
-    .catch(err => res.status(400).send("Not a Valid URL, please check you're comment id and vote"))
+    .catch(err => res.status(400).send({message: "Not a Valid URL, please check you're comment id and vote"}))
 }
 
 const deleteCommentById = (req, res, next) => {

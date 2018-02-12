@@ -29,12 +29,12 @@ app.use(bodyParser.json());
 app.use('/api', router);
 
 app.use('/*', (req, res)=>{
-  res.status(404).send('Sorry that page could not be found');
+  res.status(404).send({message: 'Sorry that page could not be found'});
 });
 
 app.use((error, req, res, next) => {
-  (error.name === "CastError") ? res.status(400).send("cast error - try checking the url is correct before continuing") :
-  res.status(500).send(error);
+  (error.name === "CastError") ? res.status(400).send({message: "cast error - try checking the url is correct before continuing"}) :
+  res.status(500).send({message: error});
 })
 
 module.exports = app;
