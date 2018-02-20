@@ -9,12 +9,12 @@ const getAllTopics = (req, res, next) => {
 
 const getArticlesByTopic = (req, res, next) => {
   const { topic } = req.params
-  Article.find({ belongs_to: topic }, { _id: false, __v: false })
+  Article.find({ belongs_to: topic }, { __v: false })
     .then(articles => {
-      if (articles.length > 0) res.send({ articles })
-      else throw err
+      if (articles.length > 0) res.send({articles})
+      else return res.status(400).send({ message: 'Not a Valid Topic' })
     })
-    .catch(err => res.status(400).send({ message: "Not a Valid Topic" }))
+    .catch(err => next(err))
 }
 
 module.exports = { getAllTopics, getArticlesByTopic }
