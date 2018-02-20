@@ -5,21 +5,31 @@ const mongoose = require('mongoose')
 const app = require('../app')
 const request = require('supertest')(app)
 const seed = require('../seed/test.seed.js')
+const db = require('../config.js').DB.test
+
 
 describe('API endpoints', function () {
   let docs
   this.timeout(8000)
+
   before(function () {
-    return mongoose.connection.dropDatabase()
+    let p;
+    if (mongoose.connection.readyState === 0) p = mongoose.connect(db)
+    else p = Promise.resolve()
+
+    return p
+    .then(() => {
+      return mongoose.connection.dropDatabase()
+    })
       .then(seed)
       .then(usefulDocs => {
         docs = usefulDocs
       })
   })
-
   after('', () => {
     mongoose.disconnect()
   })
+
   describe('/api', () => {
     it('GETs all topics', () => {
       return request
@@ -48,13 +58,12 @@ describe('API endpoints', function () {
         .get('/api/articles?page=1')
         .expect(200)
         .then(res => {
-          expect(res.body.articles).to.be.an('object')
-          expect(res.body.articles.articles).to.be.an('array')
-          expect(res.body.articles.articles.length).to.equal(2)
+          expect(res.body.articles).to.be.an('array')
+          expect(res.body.articles.length).to.equal(2)
           expect(res.body.current).to.equal('1')
-          expect(res.body.articles.articles[0].title).to.be.a('string')
-          expect(res.body.articles.articles[0].body).to.be.a('string')
-          expect(res.body.articles.articles[0]._id).to.equal(`${docs.articles[0]._id}`)
+          expect(res.body.articles[0].title).to.be.a('string')
+          expect(res.body.articles[0].body).to.be.a('string')
+          expect(res.body.articles[0]._id).to.equal(`${docs.articles[0]._id}`)
         })
     })
     it('GETs one article', () => {

@@ -6,7 +6,7 @@ const getOneComment = (req, res, next) => {
   Comment.find({ _id: comment_id }, { __v: false })
     .then(comment => {
       if (comment.length > 0) res.send({ comment })
-      else throw err
+      else return res.status(404).send({message: "Not a Valid URL, please check you're comment id"})
     })
     .catch(err => next(err))
 }
@@ -22,9 +22,9 @@ const updateCommentVotes = (req, res, next) => {
   Comment.findByIdAndUpdate({ _id: comment_id }, { $inc: { votes: num } }, { new: true })
     .then(comment => {
       if (comment !== null) res.status(201).send({ comment })
-      else throw err
+      else return res.status(400).send({ message: "Not a Valid URL, please check you're comment id and vote" })
     })
-    .catch(err => res.status(400).send({ message: "Not a Valid URL, please check you're comment id and vote" }))
+    .catch(err => next(err))
 }
 
 const deleteCommentById = (req, res, next) => {

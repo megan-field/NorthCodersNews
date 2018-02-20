@@ -4,16 +4,15 @@ const Comment = require('../models/comments')
 
 const getAllArticles = (req, res, next) => {
   let perPage = 10
-  let {page} = req.query || 1
-  console.log(page)
+  let { page } = req.query || 1
   Article.find({}, { __v: false })
     .skip((perPage * page) - perPage)
     .limit(perPage)
     .then(articles => {
       if (articles.length > 0) res.send({ articles: articles, current: page })
-      else throw err
+      else return res.status(404).send({ message: 'No more articles' })
     })
-    .catch(err => res.status(404).send({message: 'No More Articles'}))
+    .catch(err => next(err))
 }
 
 const getOneArticle = (req, res, next) => {
@@ -21,23 +20,24 @@ const getOneArticle = (req, res, next) => {
   Article.find({ _id: article_id }, { __v: false })
     .then(article => {
       if (article.length > 0) res.send({ article })
-      else throw err
+      else return res.status(400).send({ message: 'Not a Valid URL' })
     })
-    .catch(err => res.status(400).send({ message: 'Not a Valid ID' }))
+    .catch(err => next(err))
 }
 
 const getAllCommentsByArticle = (req, res, next) => {
   const { article_id } = req.params
   let perPage = 5
-  let {page} = req.query || 1
+  let { page } = req.query || 1
   Comment.find({ belongs_to: article_id })
     .sort('-created_at')
     .skip((perPage * page) - perPage)
     .limit(perPage)
     .then(comments => {
-      res.send({ comments: comments, current: page })
+      if (comments.length > 0) res.send({ comments: comments, current: page })
+      else return res.status(400).send({ message: 'Not a valid URL' })
     })
-    .catch(err => res.status(400).send({ message: 'Not a URL' }))
+    .catch(err => next(err))
 }
 
 const addCommentByArticle = (req, res, next) => {
@@ -63,9 +63,9 @@ const updateArticleVotes = (req, res, next) => {
   Article.findByIdAndUpdate({ _id: article_id }, { $inc: { votes: num } }, { new: true })
     .then(article => {
       if (article !== null) res.status(201).send({ article })
-      else throw err
+      else return res.status(400).send({ message: "Not a Valid URL, please check you're article id and vote" })
     })
-    .catch(err => res.status(400).send({ message: "Not a Valid URL, please check you're article id and vote" }))
+    .catch(err => next(err))
 }
 
 module.exports = { getAllArticles, getAllCommentsByArticle, addCommentByArticle, updateArticleVotes, getOneArticle }
