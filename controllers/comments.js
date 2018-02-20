@@ -13,7 +13,7 @@ const getOneComment = (req, res, next) => {
 
 const updateCommentVotes = (req, res, next) => {
   const { comment_id } = req.params
-  let { vote } = req.query
+  const { vote } = req.query
   let num
   console.log(vote)
   if (vote === 'up') num = 1

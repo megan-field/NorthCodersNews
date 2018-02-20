@@ -1,13 +1,13 @@
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev'
 
 const morgan = require('morgan')
-var express = require('express')
-var mongoose = require('mongoose')
+const express = require('express')
+const mongoose = require('mongoose')
 mongoose.Promise = Promise
-var bodyParser = require('body-parser')
-var app = express()
+const bodyParser = require('body-parser')
+const app = express()
 const {DB} = require('./configuration')
-var db = DB[process.env.NODE_ENV]
+const db = DB[process.env.NODE_ENV]
 const cors = require('cors')
 const router = require('./routes/index')
 const path = require('path')

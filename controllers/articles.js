@@ -3,8 +3,8 @@ const Article = require('../models/articles')
 const Comment = require('../models/comments')
 
 const getAllArticles = (req, res, next) => {
-  let perPage = 10
-  let { page } = req.query || 1
+  const perPage = 10
+  const { page } = req.query || 1
   Article.find({}, { __v: false })
     .skip((perPage * page) - perPage)
     .limit(perPage)
@@ -27,8 +27,8 @@ const getOneArticle = (req, res, next) => {
 
 const getAllCommentsByArticle = (req, res, next) => {
   const { article_id } = req.params
-  let perPage = 5
-  let { page } = req.query || 1
+  const perPage = 5
+  const { page } = req.query || 1
   Comment.find({ belongs_to: article_id })
     .sort('-created_at')
     .skip((perPage * page) - perPage)
@@ -55,7 +55,7 @@ const addCommentByArticle = (req, res, next) => {
 
 const updateArticleVotes = (req, res, next) => {
   const { article_id } = req.params
-  let { vote } = req.query
+  const { vote } = req.query
   let num
   if (vote === 'up') num = 1
   if (vote === 'down') num = -1
