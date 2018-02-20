@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const TopicSchema = new Schema({
   title: {
@@ -11,6 +11,6 @@ const TopicSchema = new Schema({
     lowercase: true,
     required: true
   }
-})
+});
 
 module.exports = mongoose.model('topics', TopicSchema);

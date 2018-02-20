@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
   title: {
@@ -23,6 +23,6 @@ const ArticleSchema = new Schema({
     type: String,
     lowercase: true
   }
-})
+});
 
 module.exports = mongoose.model('articles', ArticleSchema);

@@ -9,4 +9,4 @@ module.exports = {
     dev: 3000,
     production: process.env.PORT
   }
-}
+};

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
   body: {
@@ -24,6 +24,6 @@ const CommentSchema = new Schema({
     required: true,
     default: 'northcoder'
   }
-})
+});
 
 module.exports = mongoose.model('comments', CommentSchema);

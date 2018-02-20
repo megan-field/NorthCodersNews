@@ -3,16 +3,16 @@ const express = require('express')
 const router = express.Router()
 
 router.route('/')
-  .get(getAllArticles)
+  .get(getAllArticles);
 
 router.route('/:article_id')
-  .get(getOneArticle)
+  .get(getOneArticle);
 
 router.route('/:article_id/comments')
   .get(getAllCommentsByArticle)
-  .post(addCommentByArticle)
+  .post(addCommentByArticle);
 
 router.route('/:article_id')
-  .put(updateArticleVotes)
+  .put(updateArticleVotes);
 
-module.exports = router
+module.exports = router;
