@@ -10,6 +10,7 @@ const {DB} = require('./config')
 var db = DB[process.env.NODE_ENV]
 const cors = require('cors')
 const router = require('./routes/index')
+const path = require('path')
 
 app.use(cors())
 
@@ -20,7 +21,7 @@ mongoose.connect(db)
 app.use(morgan('dev'))
 
 app.get('/', (req, res) => {
-  res.send('All Good')
+  res.sendFile(path.join(__dirname+'/index.html'))
 })
 
 app.use(bodyParser.json())
