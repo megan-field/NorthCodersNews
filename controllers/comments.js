@@ -15,6 +15,7 @@ const updateCommentVotes = (req, res, next) => {
   const { comment_id } = req.params
   let { vote } = req.query
   let num
+  console.log(vote)
   if (vote === 'up') num = 1
   if (vote === 'down') num = -1
 

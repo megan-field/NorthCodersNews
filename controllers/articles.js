@@ -5,12 +5,12 @@ const Comment = require('../models/comments')
 const getAllArticles = (req, res, next) => {
   let perPage = 10
   let {page} = req.query || 1
-
+  console.log(page)
   Article.find({}, { __v: false })
     .skip((perPage * page) - perPage)
     .limit(perPage)
     .then(articles => {
-      if (articles.length > 0) res.send({ articles: {articles}, current: page })
+      if (articles.length > 0) res.send({ articles: articles, current: page })
       else throw err
     })
     .catch(err => res.status(404).send({message: 'No More Articles'}))
@@ -30,14 +30,14 @@ const getAllCommentsByArticle = (req, res, next) => {
   const { article_id } = req.params
   let perPage = 5
   let {page} = req.query || 1
-  return Comment.find({ belongs_to: article_id })
+  Comment.find({ belongs_to: article_id })
+    .sort('-created_at')
     .skip((perPage * page) - perPage)
     .limit(perPage)
     .then(comments => {
-      if (comments.length > 0) res.send({ comments: comments, current: page })
-      else throw err
+      res.send({ comments: comments, current: page })
     })
-    .catch(err => res.status(400).send({ message: 'Not a Valid ID/No More Comments' }))
+    .catch(err => res.status(400).send({ message: 'Not a URL' }))
 }
 
 const addCommentByArticle = (req, res, next) => {
@@ -45,13 +45,11 @@ const addCommentByArticle = (req, res, next) => {
   const { body } = req.body
   const addComment = new Comment({
     body: body,
-    belongs_to: article_id
+    belongs_to: article_id,
+    created_by: 'northcoder'
   })
-  return addComment.save()
-    .then(newComment => {
-      if (ObjectId.isValid(article_id)) res.status(201).send({ newComment })
-      else throw err
-    })
+  addComment.save()
+    .then(newComment => res.status(201).send({ newComment }))
     .catch(err => res.status(400).send({ message: "Not a Valid ID" }))
 }
 
