@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const app = require('../app')
 const request = require('supertest')(app)
 const seed = require('../seed/test.seed.js')
-const db = require('../config.js').DB.test
+const db = require('../configuration.js').DB.test
 
 
 describe('API endpoints', function () {
