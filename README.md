@@ -3,7 +3,7 @@
 
 A RESTful API for Northcoders News. Built using Node(v8.6.0), Express(v4.16.2), MongoDB(v3.4.9), Mongoose(v.5.0.3).
 
-<!-- deployed here() ... -->
+It has been deployed on Heroku [here](https://nc-news2018.herokuapp.com/)
 
 ## Set Up
 
