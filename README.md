@@ -48,7 +48,7 @@ To test the API, in your terminal, navigate to the correct project folder and en
 `npm run test`
 
 
-## API Routes:
+## API Endpoints:
 
 ```GET /api/topics```                             
 Get all the topics  
