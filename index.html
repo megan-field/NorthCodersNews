@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NCnews Endpoints</title>
+</head>
+<body>
+  <h2>GET /api/topics</h2>      
+  <h4>Get all the topics</h4>                        
+
+  <h2>GET /api/topics/:topic_id/articles</h2>
+  <h4>Return all the articles for a certain topic</h4>
+
+  <h2>GET /api/articles?page=1</h2>
+  <h4>Returns all the articles, (need - title, body, created_by, belongs_to, votes and comments), paginated with a query string, defaults to 1 </h4>
+
+  <h2>GET /api/articles/:article_id/comments</h2>
+  <h4>Get all the comments for a individual article </h4>
+
+  <h2>POST /api/articles/:article_id/comments</h2>
+  <h4>Add a new comment to an article. This route requires a JSON body with a comment key and value pair e.g: {"comment": "This is my new comment"} </h4>
+
+  <h2>PUT /api/articles/:article_id</h2>
+  <h4>Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'  e.g: /api/articles/:article_id?vote=up</h4>
+
+  <h2>PUT /api/comments/:comment_id</h2>
+  <h4>Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'   e.g: /api/comments/:comment_id?vote=down</h4>
+
+  <h2>DELETE /api/comments/:comment_id</h2>
+  <h4>Deletes a comment</h4>
+
+  <h2>GET /api/users/:username</h2>
+  <h4>Returns a JSON object with the profile data for the specified user. (need - username, name, avatar_url)  </h4>                     
+
+</body>
+</html>
